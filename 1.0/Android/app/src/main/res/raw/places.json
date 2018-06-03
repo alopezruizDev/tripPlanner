@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Volcán Irazú",
+        "geo_point": "9.979994, -83.849076",
+        "description": "Es el volcán más alto de Costa Rica y ofrece impresionantes panorámicas. Su importancia radica en que protege reductos de vegetación tipo páramo."
+    },
+    {
+        "name": "Volcán Turrialba",
+        "geo_point": "10.016307, -83.764876",
+        "description": "El Volcán Turrialba forma un solo sistema en conjunto con el Volcán Irazú. Es un estratovolcán de forma ovalada y su formación se debe a eventos explosivos y efusivos de lavas, presenta tres cráteres con presencia de coladas en sus flancos."
+    },
+    {
+        "name": "Volcán Poas",
+        "geo_point": "10.197793, -84.230554",
+        "description": "Está activo y posee uno de los cráteres más grandes del mundo. Conozca este coloso sin recorrer grandes distancias."
+    },
+    {
+        "name": "Volcán Arenal",
+        "geo_point": "10.452544, -84.721398",
+        "description": "La imponencia del volcán Arenal es innegable y esto es en lo primero que pensamos al visitar La Fortuna de San Carlos, donde se ubica esta maravilla natural."
+    },
+    {
+        "name": "Volcán Rincón de la Vieja",
+        "geo_point": "10.792612, -85.363032",
+        "description": "Este parque, declarado Patrimonio de la Humanidad por la UNESCO, es un macizo volcánico (9 cráteres) en la línea divisoria entre el Caribe y el Pacífico."
+    },
+    {
+        "name": "Volcán Barva",
+        "geo_point": "10.130162, -84.125399",
+        "description": "Ubicado al norte del Valle Central, sobre la Cordillera Volcánica Central, entre los macizos de los volcanes Poás e Irazú. Este maravilloso tesoro natural incluye los volcanes Barva y Cacho Negro, extendiéndose desde el Alto de la Palma al norte del cantón de Moravia, hasta la Zona Protectora La Selva en Puerto Viejo de Sarapiquí."
+    }
+]

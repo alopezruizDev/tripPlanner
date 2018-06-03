@@ -50,6 +50,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     Location mLastLocation;
     private List<Marker> markerList = new ArrayList<Marker>();
 
+    public static MapFragment newInstance(){
+        return new MapFragment();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
