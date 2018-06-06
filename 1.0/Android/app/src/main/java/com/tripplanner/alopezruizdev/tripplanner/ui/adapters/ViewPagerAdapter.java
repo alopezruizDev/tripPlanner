@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.tripplanner.alopezruizdev.tripplanner.ui.fragments.ListFragment;
-import com.tripplanner.alopezruizdev.tripplanner.ui.fragments.MapFragment;
+import com.tripplanner.alopezruizdev.tripplanner.fragments.ListFragment;
+import com.tripplanner.alopezruizdev.tripplanner.fragments.MapFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter{
 

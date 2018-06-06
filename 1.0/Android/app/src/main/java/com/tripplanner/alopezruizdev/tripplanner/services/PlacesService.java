@@ -1,7 +1,7 @@
 package com.tripplanner.alopezruizdev.tripplanner.services;
 
 import com.tripplanner.alopezruizdev.tripplanner.api.PlacesAPI;
-import com.tripplanner.alopezruizdev.tripplanner.models.PlaceModel;
+import com.tripplanner.alopezruizdev.tripplanner.database.entity.Place;
 
 import java.util.List;
 
@@ -16,8 +16,8 @@ public class PlacesService {
         API = retrofit.create(PlacesAPI.class);
     }
 
-    public void getPlacesList(Callback<List<PlaceModel>> listCallback){
-        Call<List<PlaceModel>> call = API.getList();
+    public void getPlacesList(Callback<List<Place>> listCallback){
+        Call<List<Place>> call = API.getList();
         call.enqueue(listCallback);
     }
 }

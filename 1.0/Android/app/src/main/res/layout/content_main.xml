@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-tools:context=".ui.activities.MainActivity"
+tools:context=".activities.MainActivity"
 tools:showIn="@layout/activity_main">
 
 <android.support.v4.view.ViewPager
@@ -14,7 +14,7 @@ tools:showIn="@layout/activity_main">
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
     <!--<fragment-->
-        <!--android:name="com.tripplanner.alopezruizdev.tripplanner.ui.fragments.MapFragment"-->
+        <!--android:name="com.tripplanner.alopezruizdev.tripplanner.fragments.MapFragment"-->
         <!--android:id="@+id/mapFragment"-->
         <!--android:layout_height="match_parent"-->
         <!--android:layout_width="match_parent"/>-->
