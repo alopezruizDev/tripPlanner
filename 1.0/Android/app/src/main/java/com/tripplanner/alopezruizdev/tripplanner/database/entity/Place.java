@@ -26,9 +26,14 @@ public class Place implements Serializable{
     private String name;
 
     @NonNull
-    @SerializedName("geo_point")
+    @SerializedName("latitude")
     @Expose
-    private String geo_point;
+    private String latitude;
+
+    @NonNull
+    @SerializedName("longitude")
+    @Expose
+    private String longitude;
 
     @SerializedName("description")
     @Expose
@@ -38,9 +43,11 @@ public class Place implements Serializable{
     }
 
     @ParcelConstructor
-    public Place(@NonNull String id, String name, @NonNull String geo_point, String description) {
+    public Place(@NonNull String id, String name, @NonNull String latitude, @NonNull String longitude, String description) {
+        this.id = id;
         this.name = name;
-        this.geo_point = geo_point;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.description = description;
     }
 
@@ -52,12 +59,22 @@ public class Place implements Serializable{
         this.name = name;
     }
 
-    public String getGeo_point() {
-        return geo_point;
+    @NonNull
+    public String getLatitude() {
+        return latitude;
     }
 
-    public void setGeo_point(String geo_point) {
-        this.geo_point = geo_point;
+    public void setLatitude(@NonNull String latitude) {
+        this.latitude = latitude;
+    }
+
+    @NonNull
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(@NonNull String longitude) {
+        this.longitude = longitude;
     }
 
     public String getDescription() {

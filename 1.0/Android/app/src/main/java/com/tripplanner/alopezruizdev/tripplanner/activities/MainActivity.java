@@ -10,7 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tripplanner.alopezruizdev.tripplanner.R;
+import com.tripplanner.alopezruizdev.tripplanner.database.entity.Place;
+import com.tripplanner.alopezruizdev.tripplanner.fragments.PlacesDataInterchange;
 import com.tripplanner.alopezruizdev.tripplanner.ui.adapters.ViewPagerAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -21,7 +25,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector, PlacesDataInterchange {
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     TabLayout mTabLayout;
 
     private ViewPagerAdapter mViewPagerAdapter;
-
+    private List<Place> mPlaceList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,5 +95,16 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
     private void configureDagger(){
         AndroidInjection.inject(this);
+    }
+
+    //PlacesDataInterchange
+    @Override
+    public List<Place> getPlacesList() {
+        return mPlaceList;
+    }
+
+    @Override
+    public void setPlacesList(List<Place> placeList) {
+        mPlaceList = placeList;
     }
 }

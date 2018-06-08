@@ -1,6 +1,7 @@
 package com.tripplanner.alopezruizdev.tripplanner.fragments;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripplanner.alopezruizdev.tripplanner.R;
+import com.tripplanner.alopezruizdev.tripplanner.database.entity.Place;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +50,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     LocationRequest mLocationRequest;
     Marker mCurrLocationMarker;
     Location mLastLocation;
-    private List<Marker> markerList = new ArrayList<Marker>();
+
+    private List<Marker> mMarkerList = new ArrayList<Marker>();
+
+    private PlacesDataInterchange dataInterchange;
 
     public static MapFragment newInstance(){
         return new MapFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            dataInterchange = (PlacesDataInterchange) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement PlacesDataInterchange");
+        }
     }
 
     @Override
@@ -78,8 +95,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         currentLocationRequest();
         enableMyLocation();
 
-        addStaticMarkers();
-
+        if(dataInterchange.getPlacesList()==null || dataInterchange.getPlacesList().size() == 0){
+//            loadList();
+        }else {
+            addMapMarkers(createMarkers(dataInterchange.getPlacesList()));
+        }
     }
 
     @Override
@@ -138,42 +158,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     //Private methods
 
-    private void addStaticMarkers(){
-        for (Marker m: markerList) {
+    private List<Marker> createMarkers(List<Place> placeList){
+        List<Marker> markerList = new ArrayList<Marker>();
+
+        for (Place place: placeList) {
+            Location location = new Location("");
+            location.setLongitude(Double.parseDouble(place.getLongitude()));
+            location.setLatitude(Double.parseDouble(place.getLatitude()));
+            markerList.add(addMapMarker(location,BitmapDescriptorFactory.HUE_GREEN,place.getName()));
+        }
+
+        return markerList;
+    }
+    private void addMapMarkers(List<Marker> markerList ){
+        for (Marker m: mMarkerList) {
             if(m!=null){
                 m.remove();
             }
         }
-
-//        Location loc1 = new Location("");
-//        loc1.setLatitude(9.979994);
-//        loc1.setLongitude(-83.849076);
-//        markerList.add(addMapMarker(loc1,BitmapDescriptorFactory.HUE_GREEN,"Volcán Irazú"));
-//
-//        Location loc2 = new Location("");
-//        loc2.setLatitude(10.017012);
-//        loc2.setLongitude(-83.767969);
-//        markerList.add(addMapMarker(loc2,BitmapDescriptorFactory.HUE_GREEN,"Volcán Turrialba"));
-//
-//        Location loc3 = new Location("");
-//        loc3.setLatitude(10.197793);
-//        loc3.setLongitude(-84.230554);
-//        markerList.add(addMapMarker(loc3,BitmapDescriptorFactory.HUE_GREEN,"Volcán Poás"));
-//
-//        Location loc4 = new Location("");
-//        loc4.setLatitude(10.452544);
-//        loc4.setLongitude(-84.721398);
-//        markerList.add(addMapMarker(loc4,BitmapDescriptorFactory.HUE_GREEN,"Volcán Arenal"));
-//
-//        Location loc5 = new Location("");
-//        loc5.setLatitude(10.792612);
-//        loc5.setLongitude(-85.363032);
-//        markerList.add(addMapMarker(loc5,BitmapDescriptorFactory.HUE_GREEN,"Volcán Rincón de la Vieja"));
-//
-//        Location loc6 = new Location("");
-//        loc6.setLatitude(10.130162);
-//        loc6.setLongitude(-84.125399);
-//        markerList.add(addMapMarker(loc6,BitmapDescriptorFactory.HUE_GREEN,"Volcán Barva"));
+        this.mMarkerList = markerList;
     }
     private void zoomToLocation(Location location){
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());

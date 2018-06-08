@@ -4,6 +4,7 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,11 +43,23 @@ public class ListFragment extends Fragment {
     @BindView(R.id.list_view) ListView mListView;
     @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeView;
 
+    private PlacesDataInterchange dataInterchange;
 
     public static ListFragment newInstance(){
         return new ListFragment();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            dataInterchange = (PlacesDataInterchange) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement PlacesDataInterchange");
+        }
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState){
@@ -61,7 +74,11 @@ public class ListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         this.configureDagger();
         this.configureViewModel();
-        loadList();
+        if(dataInterchange.getPlacesList()==null || dataInterchange.getPlacesList().size() == 0){
+            loadList();
+        }else {
+            updateUI(dataInterchange.getPlacesList());
+        }
     }
     // -----------------
     // CONFIGURATION
@@ -92,6 +109,7 @@ public class ListFragment extends Fragment {
         }else {
             showError("Error");
         }
+        dataInterchange.setPlacesList(places);
     }
 
     protected void showError(String error){
@@ -101,6 +119,8 @@ public class ListFragment extends Fragment {
     protected void loadList(){
         viewModel.getPlacesList().observe(this, places -> updateUI(places));
     }
+
+    //Internal classes
     private class SwipeRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
         @Override
         public void onRefresh() {
