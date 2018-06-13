@@ -1,6 +1,7 @@
 package com.tripplanner.alopezruizdev.tripplanner.fragments;
 
 import android.Manifest;
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -34,14 +35,21 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tripplanner.alopezruizdev.tripplanner.R;
 import com.tripplanner.alopezruizdev.tripplanner.database.entity.Place;
+import com.tripplanner.alopezruizdev.tripplanner.view_models.PlacesViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import static android.support.v7.app.AlertDialog.Builder;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    private PlacesViewModel viewModel;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private MapView mapView;
@@ -94,11 +102,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         currentLocationRequest();
         enableMyLocation();
-
+        cleanMarkers();
         if(dataInterchange.getPlacesList()==null || dataInterchange.getPlacesList().size() == 0){
-//            loadList();
+            loadList();
         }else {
-            addMapMarkers(createMarkers(dataInterchange.getPlacesList()));
+            this.mMarkerList = createMarkers(dataInterchange.getPlacesList());
         }
     }
 
@@ -157,8 +165,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
     //Private methods
-
+    protected void loadList(){
+        viewModel.getPlacesList().observe(this, places -> this.mMarkerList = createMarkers(places));
+    }
     private List<Marker> createMarkers(List<Place> placeList){
+
         List<Marker> markerList = new ArrayList<Marker>();
 
         for (Place place: placeList) {
@@ -170,13 +181,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         return markerList;
     }
-    private void addMapMarkers(List<Marker> markerList ){
-        for (Marker m: mMarkerList) {
+    private void cleanMarkers(){
+        for (Marker m: this.mMarkerList) {
             if(m!=null){
                 m.remove();
             }
         }
-        this.mMarkerList = markerList;
     }
     private void zoomToLocation(Location location){
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -195,7 +205,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(120000); // two minute interval
-        mLocationRequest.setFastestInterval(120000);
+        mLocationRequest.setFastestInterval(60000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
     private void enableMyLocation() {

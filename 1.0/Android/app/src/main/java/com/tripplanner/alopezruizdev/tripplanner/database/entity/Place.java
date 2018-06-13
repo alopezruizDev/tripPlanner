@@ -1,49 +1,20 @@
 package com.tripplanner.alopezruizdev.tripplanner.database.entity;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import org.parceler.Parcel;
-import org.parceler.ParcelConstructor;
-
 import java.io.Serializable;
 
-@Parcel
-@Entity
 public class Place implements Serializable{
 
-    @PrimaryKey
-    @NonNull
-    @SerializedName("id")
-    @Expose
+
     private String id;
-    @SerializedName("name")
-    @Expose
     private String name;
-
-    @NonNull
-    @SerializedName("latitude")
-    @Expose
     private String latitude;
-
-    @NonNull
-    @SerializedName("longitude")
-    @Expose
     private String longitude;
-
-    @SerializedName("description")
-    @Expose
     private String description;
 
     public Place() {
     }
 
-    @ParcelConstructor
-    public Place(@NonNull String id, String name, @NonNull String latitude, @NonNull String longitude, String description) {
+    public Place(String id, String name,String latitude,String longitude, String description) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -59,21 +30,19 @@ public class Place implements Serializable{
         this.name = name;
     }
 
-    @NonNull
     public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(@NonNull String latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    @NonNull
     public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(@NonNull String longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
@@ -85,12 +54,11 @@ public class Place implements Serializable{
         this.description = description;
     }
 
-    @NonNull
     public String getId() {
         return id;
     }
 
-    public void setId(@NonNull String id) {
+    public void setId(String id) {
         this.id = id;
     }
 }
